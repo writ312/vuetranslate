@@ -1,6 +1,21 @@
 // We need a vue instance to handle reactivity
 var vm = null;
 
+function getValueByDsvKey (key, obj, dsv) {
+        key = key || '';
+        obj = obj || {};
+        dsv = dsv || '.';
+ 
+        var keys = key.split('.');
+        var value = obj;
+ 
+        for (var layer = 0, recursive = keys.length; layer <= recursive - 1; layer++) {
+            value = value[keys[layer]];
+        }
+ 
+        return value;
+    }
+
 // The plugin
 const VueTranslate = {
 
@@ -72,7 +87,7 @@ const VueTranslate = {
                             return t;
                         }
 
-                        return this.locale[t];
+                        return getValueByDsvKey(t,this.locale);
                     }
                 }
             });
